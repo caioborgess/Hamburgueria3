@@ -1,0 +1,537 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#FFF8EB" />
+    <meta
+      name="description"
+      content="Explore o cardápio, personalize seu hambúrguer e monte seu pedido para retirada ou entrega."
+    />
+    <title>Cardápio da hamburgueria</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+    <link
+      rel="preload"
+      href="assets/barlow-800.ttf"
+      as="font"
+      type="font/ttf"
+      crossorigin
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/script.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Pular para o conteúdo</a>
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="logo" href="#inicio"
+          ><svg class="brand-icon" viewBox="0 0 44 40" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M3 18C3 8 11 2 22 2s19 6 19 16H3Zm0 12h38c-1 6-7 8-12 8H15c-6 0-11-2-12-8Z"
+            />
+            <path
+              d="m3 24 7-2 8 3 8-3 7 2 8-2"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+            <path
+              d="m15 10 2-1m9-1 2 1"
+              stroke="#fff8eb"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            /></svg
+          ><span data-brand></span
+        ></a>
+        <nav id="main-nav" aria-label="Navegação principal">
+          <a href="#inicio">Início</a><a href="#cardapio">Cardápio</a
+          ><a href="#sobre">Sobre</a><a href="#localizacao">Localização</a>
+        </nav>
+        <div class="header-actions">
+          <button class="cart-trigger" type="button">
+            <svg aria-hidden="true" viewBox="0 0 24 24">
+              <path d="M5 8h14l1 13H4L5 8Zm3 0V6a4 4 0 0 1 8 0v2" /></svg
+            ><span class="cart-label">Meu pedido</span
+            ><span class="cart-count"></span></button
+          ><button
+            id="nav-toggle"
+            class="icon-button nav-toggle"
+            aria-controls="main-nav"
+            aria-expanded="false"
+            aria-label="Abrir menu"
+            type="button"
+          >
+            ☰
+          </button>
+        </div>
+      </div>
+    </header>
+    <main id="main">
+      <section class="hero" id="inicio" aria-labelledby="hero-title">
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <h1 id="hero-title"></h1>
+            <p id="hero-desc"></p>
+            <div class="hero-actions">
+              <a class="button hero-order" href="#cardapio"
+                >Fazer meu pedido <span aria-hidden="true">↗</span></a
+              ><a class="hero-menu" href="#cardapio">Ver cardápio</a>
+            </div>
+          </div>
+          <div class="food-stage">
+            <div class="sun" aria-hidden="true"></div>
+            <svg
+              class="sketch"
+              viewBox="0 0 560 440"
+              preserveAspectRatio="none"
+              aria-hidden="true"
+            >
+              <g
+                fill="none"
+                stroke="currentColor"
+                stroke-width="5"
+                stroke-linecap="round"
+              >
+                <path
+                  d="m26 104 20 12m-11-45 22 23m6-57 8 26M473 326q24 6 35-9m-26 24q22 5 36-6"
+                />
+                <path
+                  d="M493 58q1 19 16 22-18 0-21 20 0-17-15-20 17-4 20-22Z"
+                />
+              </g>
+            </svg>
+            <img
+              id="hero-photo"
+              src="assets/bacon-47-hero.webp"
+              width="1180"
+              height="795"
+              alt="Bacon na Brasa com bacon crocante, cheddar e cebola no pão de gergelim"
+              fetchpriority="high"
+            />
+            <button type="button" id="hero-tag" class="hero-tag"></button>
+          </div>
+        </div>
+      </section>
+      <section
+        class="section favorites container"
+        aria-labelledby="favorites-title"
+      >
+        <div class="section-heading">
+          <h2 id="favorites-title">Protagonistas da casa</h2>
+          <a class="text-link" href="#cardapio">Cardápio completo ↗</a>
+        </div>
+        <div id="featured-grid" class="featured-grid"></div>
+      </section>
+      <section
+        id="cardapio"
+        class="section menu-section"
+        aria-labelledby="menu-title"
+      >
+        <div class="container">
+          <h2 id="menu-title">O cardápio</h2>
+          <div
+            id="category-filters"
+            class="category-filters"
+            role="group"
+            aria-label="Filtrar cardápio"
+          ></div>
+          <div class="menu-meta">
+            <span id="menu-count" aria-live="polite"></span
+            ><span>Fotos ilustrativas</span>
+          </div>
+          <div id="product-grid" class="product-grid"></div>
+          <button id="latest-order" class="button secondary track-last-order" type="button" hidden>Acompanhar meu último pedido ↗</button>
+          <p class="allergy-note">
+            Tem alguma restrição alimentar? Confirme os ingredientes e o preparo
+            antes de pedir.
+          </p>
+        </div>
+      </section>
+      <section id="sobre" class="about-section" aria-labelledby="about-title">
+        <div class="section container about-grid">
+        <img
+          id="about-photo"
+          src="assets/sobre-cheeseburger.webp"
+          alt="Cheeseburger com cheddar derretido no pão dourado"
+          loading="lazy"
+          width="1040"
+          height="693"
+        />
+        <div>
+          <p class="eyebrow">Sobre a hamburgueria</p>
+          <h2 id="about-title">De onde veio essa brasa?</h2>
+          <p id="brand-story"></p>
+        </div>
+        </div>
+      </section>
+      <section id="localizacao" class="section info-section">
+        <div class="container">
+          <div class="section-heading">
+            <h2>Nosso balcão</h2>
+            <span>Informações demonstrativas</span>
+          </div>
+          <div class="info-grid">
+            <div>
+              <h3>Localização</h3>
+              <p id="brand-address"></p>
+              <p id="brand-city"></p>
+              <p id="address-note">Endereço fictício.</p>
+              <a id="map-link" hidden target="_blank" rel="noopener noreferrer"
+                >Ver no mapa ↗</a
+              >
+            </div>
+            <div>
+              <h3>Horários</h3>
+              <ul id="brand-hours"></ul>
+            </div>
+            <div>
+              <h3>Contato</h3>
+              <p id="brand-social"></p>
+              <p id="social-note" hidden>Perfil demonstrativo</p>
+              <a
+                id="contact-link"
+                hidden
+                target="_blank"
+                rel="noopener noreferrer"
+                >Conversar no WhatsApp ↗</a
+              >
+              <p id="contact-note">WhatsApp em modo de demonstração.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+    <footer>
+      <div class="container">
+        <a class="logo" href="#inicio"
+          ><svg class="brand-icon" viewBox="0 0 44 40" aria-hidden="true">
+            <path
+              fill="currentColor"
+              d="M3 18C3 8 11 2 22 2s19 6 19 16H3Zm0 12h38c-1 6-7 8-12 8H15c-6 0-11-2-12-8Z"
+            />
+            <path
+              d="m3 24 7-2 8 3 8-3 7 2 8-2"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="5"
+              stroke-linecap="round"
+            />
+            <path
+              d="m15 10 2-1m9-1 2 1"
+              stroke="#fff8eb"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            /></svg
+          ><span data-brand></span
+        ></a>
+        <p>© <span id="year"></span> · Projeto demonstrativo</p>
+        <a href="#localizacao">Contato</a
+        ><button id="credits-button" class="plain-button">Créditos</button>
+      </div>
+    </footer>
+    <button id="mobile-cart" class="mobile-cart cart-trigger is-empty" type="button">
+      <span>Ver meu pedido <b class="cart-count"></b></span
+      ><strong id="mobile-total"></strong
+      ><span aria-hidden="true">→</span>
+    </button>
+    <dialog
+      id="product-dialog"
+      class="product-dialog"
+      aria-labelledby="product-title"
+    >
+      <button
+        class="dialog-close icon-button"
+        data-close="product-dialog"
+        aria-label="Fechar personalização"
+        type="button"
+      >
+        ×
+      </button>
+      <div id="product-content"></div>
+    </dialog>
+    <dialog id="cart-dialog" class="cart-dialog" aria-labelledby="cart-title">
+      <div class="drawer-head">
+        <div>
+          <p class="eyebrow">ESCOLHAS DE RESPEITO</p>
+          <h2 id="cart-title">MEU PEDIDO.</h2>
+        </div>
+        <button
+          class="icon-button"
+          data-close="cart-dialog"
+          aria-label="Fechar carrinho"
+          type="button"
+        >
+          ×
+        </button>
+      </div>
+      <div class="drawer-body">
+        <p id="storage-warning" class="notice" hidden></p>
+        
+        <div id="cart-items"></div>
+        <div id="cart-details" hidden>
+          <div class="cart-total">
+            <span>Subtotal dos produtos</span><strong id="cart-total"></strong>
+          </div>
+          <p class="muted">
+            Disponibilidade e preço final sujeitos à confirmação.
+          </p>
+          <button id="clear-cart" class="plain-button" type="button">
+            Esvaziar carrinho
+          </button>
+          <form id="checkout-form">
+            <h3>Como vai ser?</h3>
+            <p class="notice" id="demo-notice">Simulação com preços ilustrativos. Use um nome e um endereço inventados para testar.</p>
+            <div class="fulfillment">
+              <label
+                ><input
+                  type="radio"
+                  name="fulfillment"
+                  value="pickup"
+                  checked
+                />
+                Retirada no local</label
+              ><label
+                ><input type="radio" name="fulfillment" value="delivery" />
+                Entrega</label
+              >
+            </div>
+            <label class="field"
+              >Seu nome<input
+                id="customer-name"
+                name="customerName"
+                required
+                maxlength="80"
+                autocomplete="name"
+                placeholder="Como podemos chamar você?"
+            /></label>
+            <div id="address-fields" hidden>
+              <label class="field">CEP<input id="delivery-cep" name="cep" inputmode="numeric" autocomplete="postal-code" placeholder="00000-000" maxlength="9" disabled></label>
+              <p class="privacy-note">O ViaCEP recebe o CEP para localizar seu endereço.</p>
+              <button type="button" id="manual-address" class="plain-button">Preencher endereço manualmente</button>
+              <p id="cep-status" role="status"></p>
+              <div id="delivery-details" hidden>
+              <label class="field">Cidade<input id="delivery-city" name="city" readonly disabled></label>
+              <label class="field"
+                >Rua ou avenida<input
+                  name="street"
+                  maxlength="140"
+                  autocomplete="address-line1"
+                  disabled
+              /></label>
+              <div class="form-row">
+                <label class="field"
+                  >Número<input
+                    name="number"
+                    maxlength="20"
+                    placeholder="123 ou S/N"
+                    disabled /></label
+                ><label class="field"
+                  >Bairro<select name="neighborhood" id="delivery-zone" disabled><option value="">Selecione seu bairro</option></select></label>
+              </div>
+              <label class="field"
+                >Complemento <span>(opcional)</span
+                ><input
+                  name="complement"
+                  maxlength="140"
+                  autocomplete="address-line2"
+                  disabled
+              /></label>
+              <p class="notice">
+                <span id="delivery-fee" aria-live="polite"></span>
+              </p>
+              </div>
+            </div>
+            <p id="checkout-error" role="alert" class="error" hidden></p>
+            <button class="button primary full-width" type="submit">
+              Revisar pedido <span aria-hidden="true">→</span>
+            </button>
+            <p class="privacy-note" id="order-data-note">
+              Nome e endereço ficam no formulário e no resumo desta página. O carrinho guarda itens, quantidades, escolhas e observações neste navegador para a próxima visita. Use “Esvaziar carrinho” para apagar o pedido salvo.
+            </p>
+          </form>
+          <section id="order-review" hidden aria-labelledby="review-title">
+            <h3 id="review-title" tabindex="-1">Confira antes de continuar</h3>
+            <p id="review-receipt"></p><p><strong id="review-amount"></strong></p>
+            <button type="button" id="pay-online" class="button primary full-width">Pagar com Mercado Pago</button>
+            <p id="payment-note" class="notice" role="status"></p>
+            <p class="privacy-note">Após a aprovação pelo Mercado Pago, a comanda aparece no painel da hamburgueria. Use a mensagem abaixo apenas se preferir atendimento pelo WhatsApp. Para pagar pelo site, basta acompanhar o pedido por aqui.</p>
+            <details id="optional-whatsapp"><summary>Mensagem para WhatsApp (opcional)</summary>
+            <p id="whatsapp-status" class="notice"></p>
+            <label class="field" for="message-preview"
+              >Mensagem do pedido</label
+            ><textarea id="message-preview" readonly rows="13"></textarea
+            ><a
+              id="whatsapp-link"
+              class="button primary full-width"
+              target="_blank"
+              rel="noopener noreferrer"
+              hidden
+              >Continuar pelo WhatsApp ↗</a
+            ><button
+              id="copy-order"
+              class="button primary full-width"
+              type="button"
+              hidden
+            >
+              Copiar resumo</button>
+            <p class="privacy-note" id="copy-privacy">Ao copiar, o resumo vai para a área de transferência do aparelho.</p>
+            </details>
+            <button
+              id="back-checkout"
+              class="button secondary full-width"
+              type="button"
+            >
+              Voltar aos dados
+            </button>
+          </section>
+        </div>
+      </div>
+    </dialog>
+    <dialog id="demo-track-dialog" aria-label="Acompanhar pedido simulado"><button type="button" class="button secondary" data-close="demo-track-dialog">Voltar ao site</button><button type="button" id="demo-view" class="button secondary"></button><p class="track-demo">Demonstração das duas telas. Na loja, apenas a equipe autenticada atualiza as comandas.</p><div id="demo-panel"></div></dialog>
+    <dialog
+      id="credits-dialog"
+      class="small-dialog"
+      aria-labelledby="credits-title"
+    >
+      <button
+        class="dialog-close icon-button"
+        data-close="credits-dialog"
+        aria-label="Fechar créditos"
+        type="button"
+      >
+        ×
+      </button>
+      <h2 id="credits-title">CRÉDITOS.</h2>
+      <p>
+        Fotografias ilustrativas do Unsplash, utilizadas sob a
+        <a
+          href="https://unsplash.com/license"
+          target="_blank"
+          rel="noopener noreferrer"
+          >licença Unsplash</a
+        >. Não representam os produtos fictícios com exatidão.
+      </p>
+      <p>
+        Fotografias do cardápio e da seção Sobre sob a
+        <a
+          href="https://www.pexels.com/license/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >licença Pexels</a
+        >.
+      </p>
+      <ul class="photo-credits">
+        <li>
+          O Bacon na Brasa da capa é uma imagem ilustrativa criada com
+          inteligência artificial para o BRASA 47.
+        </li>
+        <li>
+          Cheeseburger da seção Sobre —
+          <a
+            href="https://www.pexels.com/photo/close-up-of-a-cheeseburger-19247567/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Jonathan Borba</a
+          >
+        </li>
+        <li>
+          Bacon na Brasa —
+          <a
+            href="https://www.pexels.com/photo/close-up-of-a-burger-with-cheese-and-bacon-19247571/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Jonathan Borba</a
+          >
+        </li>
+        <li>
+          Frango Crocante —
+          <a
+            href="https://www.pexels.com/photo/close-up-photo-of-burgers-and-chicken-fingers-17121734/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Ali Dashti</a
+          >
+        </li>
+        <li>
+          Jalapeño na Brasa —
+          <a
+            href="https://www.pexels.com/photo/juicy-cheeseburger-with-crispy-french-fries-35991523/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Josh Eleazar</a
+          >
+        </li>
+        <li>
+          Horta da Casa —
+          <a
+            href="https://www.pexels.com/photo/cheeseburger-with-vegetables-20722055/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Anupkumar Patel</a
+          >
+        </li>
+        <li>
+          Ovo na Chapa —
+          <a
+            href="https://www.pexels.com/photo/closeup-photography-of-bun-with-cheese-patty-egg-and-bacon-660282/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Narco Pertama</a
+          >
+        </li>
+        <li>
+          Onion rings —
+          <a
+            href="https://www.pexels.com/photo/close-up-of-onion-rings-25390056/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Valeria Boltneva</a
+          >
+        </li>
+        <li>
+          Limonada —
+          <a
+            href="https://www.pexels.com/photo/cold-refreshing-lemonade-in-glass-5946758/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Charlotte May</a
+          >
+        </li>
+        <li>
+          Água —
+          <a
+            href="https://www.pexels.com/photo/clear-disposable-bottle-on-black-surface-1000084/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Steve A Johnson</a
+          >
+        </li>
+        <li>
+          Clássico 47 —
+          <a
+            href="https://www.pexels.com/photo/cheeseburger-with-red-onion-tomato-and-lettuce-19247575/"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Jonathan Borba</a
+          >
+        </li>
+      </ul>
+      <p>
+        Fontes Barlow Condensed e DM Sans sob a licença SIL Open Font License.
+      </p>
+      <p>
+        Lista de arquivos e fontes:
+        <a href="assets/CREDITOS.md" target="_blank">assets/CREDITOS.md</a>.
+      </p>
+    </dialog>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+    <noscript
+      ><div class="noscript">
+        Ative o JavaScript para consultar o cardápio, personalizar produtos e
+        usar o carrinho.
+      </div></noscript
+    >
+  </body>
+</html>
