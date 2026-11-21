@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 158 54">
+  <defs>
+    <g id="burger" fill="none" stroke="#ffcc29" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M2 21C3 8 14 2 28 2c15 0 25 7 27 19H2Zm1 5 8-2 8 4 8-4 9 4 9-4 8 2M4 33h49c0 6-5 9-12 9H17C9 42 5 39 4 33Z"/>
+      <path d="m16 13 2-2m9-3 3 1m7 4 3 1"/>
+    </g>
+  </defs>
+  <use href="#burger" transform="translate(5 6) rotate(-10 28 22)"/>
+  <use href="#burger" transform="translate(71 15) scale(.76) rotate(9 28 22)"/>
+  <use href="#burger" transform="translate(124 8) scale(.54) rotate(-13 28 22)"/>
+</svg>
